@@ -1,0 +1,14 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectGrid from '../../components/ProjectGrid.astro';
+import { getProjects } from '../../content';
+
+const items = await getProjects();
+---
+<Base title="Projects" description="Things I've built.">
+  <section class="page-head">
+    <h1>Projects</h1>
+    <p class="tagline">Things I've built, at work and for fun.</p>
+  </section>
+  {items.length ? <ProjectGrid items={items} /> : <p class="muted">Coming soon.</p>}
+</Base>

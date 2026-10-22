@@ -1,0 +1,51 @@
+# Config for Pages CMS (https://pagescms.org): edit the site in your browser.
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: prep
+    label: Interview prep
+    type: collection
+    path: src/content/prep
+    filename: "{primary}.md"
+    view:
+      fields: [title, category, difficulty, date, draft]
+      sort: [date]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Short description, type: text, required: true }
+      - name: category
+        label: Category
+        type: select
+        required: true
+        options:
+          values: [coding, system-design, behavioral]
+      - name: difficulty
+        label: Difficulty
+        type: select
+        options:
+          values: [easy, medium, hard]
+      - { name: tags, label: Tags, type: string, list: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: draft, label: Draft (hidden from the site), type: boolean, default: true }
+      - { name: body, label: Content, type: code, options: { language: markdown } }
+
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/content/projects
+    filename: "{primary}.md"
+    view:
+      fields: [title, date, featured, draft]
+      sort: [date]
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: description, label: Short description, type: text, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: tags, label: Tags, type: string, list: true }
+      - { name: repo, label: Source code URL, type: string }
+      - { name: url, label: Live URL, type: string }
+      - { name: featured, label: Featured (shown first), type: boolean, default: false }
+      - { name: draft, label: Draft (hidden from the site), type: boolean, default: true }
+      - { name: body, label: Content, type: code, options: { language: markdown } }

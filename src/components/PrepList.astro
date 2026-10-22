@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { CATEGORIES, formatDate } from '../site';
+
+interface Props {
+  items: CollectionEntry<'prep'>[];
+}
+const { items } = Astro.props;
+---
+<ul class="list">
+  {items.map(({ id, data }) => (
+    <li data-category={data.category}>
+      <a href={`/prep/${id}/`}>
+        <div class="list-head">
+          <h3>{data.title}</h3>
+          <span class="pill">{CATEGORIES[data.category]}</span>
+          {data.difficulty && <span class={`pill diff-${data.difficulty}`}>{data.difficulty}</span>}
+        </div>
+        <p>{data.description}</p>
+        <time datetime={data.date.toISOString()}>{formatDate(data.date)}</time>
+      </a>
+    </li>
+  ))}
+</ul>

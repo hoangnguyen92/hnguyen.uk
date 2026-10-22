@@ -1,0 +1,26 @@
+---
+import { render } from 'astro:content';
+import Article from '../../layouts/Article.astro';
+import { CATEGORIES } from '../../site';
+import { getPrep } from '../../content';
+
+export async function getStaticPaths() {
+  return (await getPrep()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const { data } = entry;
+const difficulty = data.difficulty && data.difficulty[0].toUpperCase() + data.difficulty.slice(1);
+const meta = [CATEGORIES[data.category], difficulty].filter(Boolean) as string[];
+---
+<Article
+  title={data.title}
+  description={data.description}
+  date={data.date}
+  meta={meta}
+  tags={data.tags}
+  back={{ href: '/prep/', label: 'Interview prep' }}
+>
+  <Content />
+</Article>

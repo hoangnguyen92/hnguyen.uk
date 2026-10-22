@@ -1,0 +1,66 @@
+---
+import Base from '../layouts/Base.astro';
+import PrepList from '../components/PrepList.astro';
+import ProjectGrid from '../components/ProjectGrid.astro';
+import { SITE } from '../site';
+import { getPrep, getProjects } from '../content';
+
+const prep = (await getPrep()).slice(0, 3);
+const projects = (await getProjects()).slice(0, 4);
+---
+<Base>
+  <section class="hero">
+    <div class="avatar" aria-hidden="true">HN</div>
+    <h1>Hi, I'm Hoang.</h1>
+    <p class="tagline">
+      I'm a Production Engineer at <strong>Meta</strong> in London. I keep large systems
+      fast and reliable, and I like helping engineers get ready for their next interview.
+    </p>
+    <nav class="links" aria-label="Profiles">
+      <a href={SITE.links.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+      <a href={SITE.links.github} rel="me noopener" target="_blank">GitHub</a>
+    </nav>
+  </section>
+
+  <section>
+    <h2>About me</h2>
+    <p>
+      I've been writing software for more than ten years. I started as a Java developer in
+      Sofia, Bulgaria, where I also studied Software Engineering, and later moved to London.
+      Along the way I've worked on banking and insurance systems, fintech, e-commerce and
+      cloud infrastructure, at companies like VMware, Monese and Capco before joining Meta.
+    </p>
+    <p>
+      These days I mostly think about production systems: how they scale, how they fail,
+      and how to make them easy to run. I write Rust, Python and Java, and I speak
+      Vietnamese, English and Bulgarian.
+    </p>
+  </section>
+
+  <section class="grid">
+    <div class="box">
+      <h3>What I work on</h3>
+      <p>Reliability, performance and tooling for large-scale production systems.</p>
+    </div>
+    <div class="box">
+      <h3>How I can help</h3>
+      <p>Coding and system design interview prep, with worked solutions and tips from both sides of the table.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Latest interview prep</h2>
+      <a href="/prep/">See all →</a>
+    </div>
+    {prep.length ? <PrepList items={prep} /> : <p class="muted">Coming soon.</p>}
+  </section>
+
+  <section>
+    <div class="section-head">
+      <h2>Projects</h2>
+      <a href="/projects/">See all →</a>
+    </div>
+    {projects.length ? <ProjectGrid items={projects} /> : <p class="muted">Coming soon.</p>}
+  </section>
+</Base>

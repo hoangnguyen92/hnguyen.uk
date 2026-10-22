@@ -1,0 +1,40 @@
+---
+import Base from '../../layouts/Base.astro';
+import PrepList from '../../components/PrepList.astro';
+import { CATEGORIES } from '../../site';
+import { getPrep } from '../../content';
+
+const items = await getPrep();
+const used = Object.entries(CATEGORIES).filter(([key]) => items.some((i) => i.data.category === key));
+---
+<Base title="Interview prep" description="Coding and system design interview questions with worked solutions.">
+  <section class="page-head">
+    <h1>Interview prep</h1>
+    <p class="tagline">
+      Coding and system design questions I've seen or asked, each with a worked solution,
+      the trade-offs, and what interviewers usually look for.
+    </p>
+  </section>
+
+  {used.length > 1 && (
+    <div class="filters" role="group" aria-label="Filter by category">
+      <button type="button" data-filter="all" aria-pressed="true">All</button>
+      {used.map(([key, label]) => <button type="button" data-filter={key} aria-pressed="false">{label}</button>)}
+    </div>
+  )}
+
+  {items.length ? <PrepList items={items} /> : <p class="muted">Coming soon.</p>}
+
+  <script>
+    const buttons = document.querySelectorAll<HTMLButtonElement>('.filters button');
+    buttons.forEach((btn) =>
+      btn.addEventListener('click', () => {
+        const f = btn.dataset.filter;
+        buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === btn)));
+        document.querySelectorAll<HTMLElement>('.list > li').forEach((li) => {
+          li.hidden = f !== 'all' && li.dataset.category !== f;
+        });
+      }),
+    );
+  </script>
+</Base>
