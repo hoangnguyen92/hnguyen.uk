@@ -41,5 +41,6 @@ set `draft: false` when the post is ready.
 
 ## Deploying
 
-Cloudflare Pages settings: framework preset **Astro**, build command `npm run build`,
-output directory `dist`, environment variable `NODE_VERSION=22`.
+Hosted on Cloudflare Workers (static assets), connected to this repo. Every push to `main`
+runs `npm run build` and then `npx wrangler deploy`, which uploads `dist/` as configured in
+`wrangler.jsonc`. The Worker name there must match the project name in Cloudflare (`hnguyen-uk`).
